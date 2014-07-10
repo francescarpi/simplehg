@@ -7,7 +7,7 @@ SimpleHG es un sencillo plugin de Emacs para gestionar tareas simples de mercuri
 Clonar el repositorio en tu carpeta de plugins de emacs.
 
 <pre>
-	git clone https://github.com/francescarpi/simplehg.git
+git clone https://github.com/francescarpi/simplehg.git
 </pre>
 
 Editar tu fichero de configuración de emacs **.emacs**.
