@@ -1,30 +1,30 @@
 # SimpleHG
 
-SimpleHG es un sencillo plugin de Emacs para gestionar tareas simples de mercurial.
+SimpleHG it's a simple plugin for emacs that allow manage mercurial repositories.
 
-## Instalación
+## Installation
 
-Clonar el repositorio en tu carpeta de plugins de emacs.
+Clone this repository inside your emacs plugins folder.
 
 <pre>
 git clone https://github.com/francescarpi/simplehg.git
 </pre>
 
-Editar tu fichero de configuración de emacs **.emacs**.
+Edit your emacs configuration file, **.emacs**.
 
 <pre>
 (require 'simplehg)
 (global-set-key (kbd "M-n") 'simplehg-status-buffer)
 </pre>
 
-Se ha asignado la combinación de teclas **M-n** para iniciar la ventana de estado. Pero puede añadir la que más te convenga.
+I use this key map configuration (**M-n**), but you can use that you want.
 
-Si emacs no encuentra el paquete **simplehg**, asegúrate de que esté incluido en el __load-pagh__.
+If emacs don't find the simplehg package, check if it's in included path (**load-path**).
 
 <pre>
 (add-to-list 'load-path "<your-pagh>/simplehg")
 </pre>
 
-Cuando activas **simplehg-status-buffer** se crea este buffer, y aquí empieza todo:
+When you activate **simplehg-status-buffer** a buffer is created. All begins here ;)
 
 ![Captura de pantalla](screenshot1.png)
