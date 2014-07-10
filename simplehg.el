@@ -3,8 +3,8 @@
 ;; Copyright (C) 2014 Francesc Arpí.
 
 ;; Author: Francesc Arpi <farpi@apsl.net>
-;; URL: 
-;; Version: 0.1 Beta
+;; URL: https://github.com/francescarpi/simplehg.git
+;; Version: 0.2 Beta
 ;; Keywords: tools, mercurial, hg
 
 ;; SimpleHg is free software: you can redistribute it and/or modify it
