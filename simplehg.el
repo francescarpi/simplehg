@@ -20,6 +20,8 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+;; TODO: Close branch functionality
+
 ;; Utils
 (defun simplehg-face-format1(text)
   (propertize text 'face '(:foreground "orange" 
@@ -50,8 +52,7 @@
     (define-key map (kbd "r") 'simplehg-status-buffer)
     (define-key map (kbd "A") 'simplehg-addremove)
     (define-key map (kbd "P") 'simplehg-push)
-    (define-key map (kbd "b") 'simplehg-jump-branch)
-    (define-key map (kbd "s") 'simplehg-select-branch)
+    (define-key map (kbd "b") 'simplehg-select-branch)
     (define-key map (kbd "M") 'simplehg-merge-branch)
     (define-key map (kbd "U") 'simplehg-pull-update)
     (define-key map (kbd "D") 'simplehg-delete-file)
@@ -109,8 +110,7 @@
   (insert "r: Refresh status\n")
   (insert "A: Execute hg addremove command\n")
   (insert "P: Make a push to remote repository\n")
-  (insert "b: Jump to other branch\n")
-  (insert "s: Select other branch\n")
+  (insert "b: Change to other branch\n")
   (insert "M: Merge with other branch\n")
   (insert "U: Hg pull/update\n")
   (insert "D: Delete selected file\n")
@@ -167,7 +167,7 @@
   (simplehg-jump-branch (nth 0 (split-string branch_name " "))))
 
 (defun simplehg-merge-branch(branch_name)
-  (interactive "MBranch name: ")
+  (interactive (list (completing-read "Branch name: " (simplehg-branch-list))))
   (shell-command-to-string (concat "hg merge " branch_name))
   (simplehg-status-buffer)
   (simplehg-message "Merge finished successfully"))
