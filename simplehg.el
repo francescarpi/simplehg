@@ -98,7 +98,7 @@
   (insert (concat "Last refresh time: " (format-time-string "%H:%M:%S") "\n\n"))
   
   (insert (simplehg-face-format1 "Changes\n"))
-  (insert (simplehg-face-format1 "---------\n\n"))
+  (insert (simplehg-face-format1 "-------\n\n"))
 
   (if (equal (simplehg-status) "")
       (insert (simplehg-face-format3 "Not changes found\n"))
