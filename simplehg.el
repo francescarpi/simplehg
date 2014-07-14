@@ -168,7 +168,7 @@
 
 (defun simplehg-merge-branch(branch_name)
   (interactive (list (completing-read "Branch name: " (simplehg-branch-list))))
-  (shell-command-to-string (concat "hg merge " branch_name))
+  (shell-command-to-string (concat "hg merge " (nth 0 (split-string branch_name " "))))
   (simplehg-status-buffer)
   (simplehg-message "Merge finished successfully"))
 
