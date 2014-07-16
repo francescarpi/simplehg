@@ -211,7 +211,12 @@
 
 (defun simplehg-diff()
   (interactive)
-  (message (shell-command-to-string (concat "hg diff " (simplehg-get-line-file-name)))))
+  (setq simplehg-file-path (simplehg-get-line-file-path))
+  (get-buffer-create "simplehg-diff")
+  (pop-to-buffer "simplehg-diff")
+  (erase-buffer)
+  (insert (shell-command-to-string (concat "hg diff " simplehg-file-path)))
+  (diff-mode))
 
 (defun simplehg-revert()
   (interactive)
