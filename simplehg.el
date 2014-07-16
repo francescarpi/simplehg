@@ -39,8 +39,7 @@
   (message (simplehg-face-format1 message)))
 
 (defun simplehg-get-line-file-name()
-  (nth 1 (split-string (
-	  buffer-substring (line-beginning-position) (line-end-position)) " ")))
+  (substring (buffer-substring (line-beginning-position) (line-end-position)) 2))
 
 (defun simplehg-get-line-file-path()
   (concat (simplehg-root) "/" (simplehg-get-line-file-name)))
