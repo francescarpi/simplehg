@@ -55,6 +55,8 @@
     (define-key map (kbd "M") 'simplehg-merge-branch)
     (define-key map (kbd "U") 'simplehg-pull-update)
     (define-key map (kbd "D") 'simplehg-delete-file)
+    (define-key map (kbd "f") 'simplehg-diff)
+    (define-key map (kbd "R") 'simplehg-revert)
     map))
 
 (defvar simplehg-commit-buffer-map
@@ -113,6 +115,8 @@
   (insert "M: Merge with other branch\n")
   (insert "U: Hg pull/update\n")
   (insert "D: Delete selected file\n")
+  (insert "f: View differences\n")
+  (insert "R: Revert file\n")
 
   (goto-line 12))
 
@@ -203,6 +207,16 @@
   (interactive)
   (when (yes-or-no-p (concat "Do you want delete this file '" (simplehg-get-line-file-name) "'? "))
     (delete-file (simplehg-get-line-file-path)))
+  (simplehg-status-buffer))
+
+(defun simplehg-diff()
+  (interactive)
+  (message (shell-command-to-string (concat "hg diff " (simplehg-get-line-file-name)))))
+
+(defun simplehg-revert()
+  (interactive)
+  (when (yes-or-no-p (concat "Do you want revert this file '" (simplehg-get-line-file-name) "'? "))
+    (shell-command-to-string (concat "hg revert " (simplehg-get-line-file-path))))
   (simplehg-status-buffer))
 
 (provide 'simplehg)

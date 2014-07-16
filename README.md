@@ -28,3 +28,5 @@ If emacs don't find the simplehg package, check if it's in included path (**load
 When you activate **simplehg-status-buffer** a buffer is created. All begins here ;)
 
 ![Captura de pantalla](screenshot1.png)
+
+
