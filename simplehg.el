@@ -21,6 +21,8 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;; TODO: Close branch functionality
+;; TODO: Create branchs
+;; TODO: Push with new-branch...
 
 ;; Utils
 (defun simplehg-face-format1(text)
@@ -28,11 +30,11 @@
 			   :weight bold)))
 
 (defun simplehg-face-format2(text)
-  (propertize text 'face '(:foreground "red" 
+  (propertize text 'face '(:foreground "color-196" 
 			   :weight bold)))
 
 (defun simplehg-face-format3(text)
-  (propertize text 'face '(:foreground "green" 
+  (propertize text 'face '(:foreground "color-82" 
 			   :weight bold)))
 
 (defun simplehg-message(message)
