@@ -20,10 +20,6 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-;; TODO: Close branch functionality
-;; TODO: Create branchs
-;; TODO: Push with new-branch...
-
 ;; Utils
 (defun simplehg-face-format1(text)
   (propertize text 'face '(:foreground "orange" 
@@ -53,17 +49,20 @@
     (define-key map (kbd "r") 'simplehg-status-buffer)
     (define-key map (kbd "A") 'simplehg-addremove)
     (define-key map (kbd "P") 'simplehg-push)
+    (define-key map (kbd "N") 'simplehg-push-new-branch)
     (define-key map (kbd "b") 'simplehg-select-branch)
     (define-key map (kbd "M") 'simplehg-merge-branch)
     (define-key map (kbd "U") 'simplehg-pull-update)
     (define-key map (kbd "D") 'simplehg-delete-file)
     (define-key map (kbd "f") 'simplehg-diff)
     (define-key map (kbd "R") 'simplehg-revert)
+    (define-key map (kbd "t") 'simplehg-create-new-branch)
     map))
 
 (defvar simplehg-commit-buffer-map
   (let ((map (make-keymap)))
     (define-key map (kbd "C-c C-c") 'simplehg-do-commit)
+    (define-key map (kbd "C-c C-l") 'simplehg-do-commit-close-branch)
     map))
 
 (defvar simplehg-pull-update-map
@@ -109,16 +108,21 @@
 
   (insert (simplehg-face-format1 "\nMap Keys\n"))
   (insert (simplehg-face-format1 "--------\n\n"))
+  (insert "r: Refresh status\n\n")
+
   (insert "c: Make a commit\n")
-  (insert "r: Refresh status\n")
-  (insert "A: Execute hg addremove command\n")
   (insert "P: Make a push to remote repository\n")
+  (insert "N: Make a push to with --new-branch param\n")
+  (insert "U: Hg pull/update\n\n")
+
   (insert "b: Change to other branch\n")
-  (insert "M: Merge with other branch\n")
-  (insert "U: Hg pull/update\n")
-  (insert "D: Delete selected file\n")
+  (insert "t: Create a new branch\n")
+  (insert "M: Merge with other branch\n\n")
+
+  (insert "A: Execute hg addremove command\n")
   (insert "f: View differences\n")
   (insert "R: Revert file\n")
+  (insert "D: Delete selected file\n")
 
   (goto-line 12))
 
@@ -133,7 +137,7 @@
   (pop-to-buffer "simplehg-commit")
   (erase-buffer)
   (use-local-map simplehg-commit-buffer-map)
-  (simplehg-messagee "Type C-c C-c to do a commit (C-x k to cancel).")
+  (simplehg-message "C-c C-c: commit  |  C-c C-l: commit --close-branch  |  C-x k: cancel commit")
 )
 
 (defun simplehg-do-commit()
@@ -150,6 +154,21 @@
   (simplehg-status-buffer)
   (simplehg-message "Commit finished successfully"))
 
+;; TODO: Repeated code with do-commit. Improve.
+(defun simplehg-do-commit-close-branch()
+  (interactive)
+
+  (when (= (buffer-size) 0)
+    (error "Empty buffer. Is not possible to commit.  Type C-x k to cancel."))
+
+  (write-file "simplehg-commit")
+  (shell-command-to-string (concat "hg commit --logfile simplehg-commit --close-branch"))
+  (delete-file "simplehg-commit")
+
+  (kill-buffer "simplehg-commit")
+  (simplehg-status-buffer)
+  (simplehg-message "Commit finished successfully"))
+
 (defun simplehg-push()
   (interactive)
   (simplehg-message "Running 'hg push'")
@@ -158,6 +177,17 @@
   (simplehg-status-buffer)
 
   (simplehg-message "Push finished successfully"))
+
+
+(defun simplehg-push-new-branch()
+  (interactive)
+  (simplehg-message "Running 'hg push --new-branch'")
+
+  (shell-command-to-string "hg push --new-branch")
+  (simplehg-status-buffer)
+
+  (simplehg-message "Push finished successfully"))
+
 
 (defun simplehg-jump-branch(branch_name)
   (interactive "MBranch name: ")
@@ -225,6 +255,12 @@
   (when (yes-or-no-p (concat "Do you want revert this file '" (simplehg-get-line-file-name) "'? "))
     (shell-command-to-string (concat "hg revert " (simplehg-get-line-file-path))))
   (simplehg-status-buffer))
+
+(defun simplehg-create-new-branch(name)
+  (interactive "MBranch name: ")
+  (shell-command-to-string (concat "hg branch " name))
+  (simplehg-status-buffer))
+
 
 (provide 'simplehg)
 
