@@ -26,11 +26,11 @@
 			   :weight bold)))
 
 (defun simplehg-face-format2(text)
-  (propertize text 'face '(:foreground "color-196" 
+  (propertize text 'face '(:foreground "red" 
 			   :weight bold)))
 
 (defun simplehg-face-format3(text)
-  (propertize text 'face '(:foreground "color-82" 
+  (propertize text 'face '(:foreground "green" 
 			   :weight bold)))
 
 (defun simplehg-message(message)
@@ -142,10 +142,6 @@
 
 (defun simplehg-do-commit()
   (interactive)
-
-  (when (= (buffer-size) 0)
-    (error "Empty buffer. Is not possible to commit.  Type C-x k to cancel."))
-
   (write-file "simplehg-commit")
   (shell-command-to-string (concat "hg commit --logfile simplehg-commit"))
   (delete-file "simplehg-commit")
@@ -157,10 +153,6 @@
 ;; TODO: Repeated code with do-commit. Improve.
 (defun simplehg-do-commit-close-branch()
   (interactive)
-
-  (when (= (buffer-size) 0)
-    (error "Empty buffer. Is not possible to commit.  Type C-x k to cancel."))
-
   (write-file "simplehg-commit")
   (shell-command-to-string (concat "hg commit --logfile simplehg-commit --close-branch"))
   (delete-file "simplehg-commit")
@@ -173,7 +165,7 @@
   (interactive)
   (simplehg-message "Running 'hg push'")
 
-  (shell-command-to-string "hg push")
+  (message (shell-command-to-string "hg push"))
   (simplehg-status-buffer)
 
   (simplehg-message "Push finished successfully"))
@@ -183,7 +175,7 @@
   (interactive)
   (simplehg-message "Running 'hg push --new-branch'")
 
-  (shell-command-to-string "hg push --new-branch")
+  (message (shell-command-to-string "hg push --new-branch"))
   (simplehg-status-buffer)
 
   (simplehg-message "Push finished successfully"))
